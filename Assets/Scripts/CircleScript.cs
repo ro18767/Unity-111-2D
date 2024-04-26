@@ -8,18 +8,25 @@ public class CircleScript : MonoBehaviour
     private float forceFactor = 200f;
 
     private Rigidbody2D rb;   // посилання на компонент 
+    private GameObject display;   // посилання на інший ГО
+    private DisplayScript displayScript;   // посилання на об'єкт скрипту в іншому ГО
+   
+    private bool needClearField = false;
+
     void Start()
     {
         // одержання посилання: this - сам об'єкт,
         // this.GetComponent - перший компонент заданого типу
         rb = this.GetComponent<Rigidbody2D>();
+        display = GameObject.Find("Display");   // пошук за іменем в ієрархії
+        displayScript = display.GetComponent<DisplayScript>();   // компонент в іншому ГО
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(Vector3.up * forceFactor);
+            rb.AddForce(forceFactor * Time.timeScale * Vector3.up);
         }
         this.transform.eulerAngles = new Vector3(0, 0, 2f * rb.velocity.y);
     }
@@ -44,7 +51,10 @@ public class CircleScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Obstacle"))
         {
-            Debug.Log("Game over coming soon... ");
+            // Debug.Log("Game over coming soon... ");
+            displayScript.messageText.text = "Спроба програна";
+            displayScript.SetPause(true);
+            needClearField = true;
         }        
     }
     private void OnTriggerExit2D(Collider2D other)
@@ -54,12 +64,25 @@ public class CircleScript : MonoBehaviour
             Debug.Log("+1 to score");
         }
     }
+    public void OnContinueButtonClick()
+    {
+        if (needClearField)
+        {
+            // повторна спроба - прибираємо всі труби з поля
+            foreach(var tube in GameObject.FindGameObjectsWithTag("Tube"))
+            {
+                GameObject.Destroy(tube);
+            }
+        }
+    }
 }
-/* Д.З. Створити проєкт 2D
- * Створити центральний об'єкт - Bird
- * Реалізувати управління (на базі фізики) - пробілом, 
- *  а також стрілками у 4 боки
- * Обмежити ігрове поле колайдерами з усіх боків - перевірити, що 
- * об'єкт не виходить з поля гри.
- * До звіти додати скріншоти / відеозапис
+/* Д.З. Завершити проєкт 2D
+ * - При програній спробі прибирати з поля всі елементи (у т.ч. "Їжу")
+ * - Змінювати надпис на кнопці меню паузи в залежності від ситуації 
+ *    (почати / продовжити / повторити)
+ * - Відображати кількість пройдених перешкод (труб), а також кількість
+ *     спроб, що залишились ("життів")
+ * - По завершенні всіх спроб видавати надпис "Гра завершена" [Нова гра]
+ * - Додати кнопку виходу з гри (*зауважити, що вихід робиться по-різному
+ *     у режимі Editor та у скомпільованій грі)
  */
