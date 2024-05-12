@@ -7,6 +7,11 @@ public class CircleScript : MonoBehaviour
     [SerializeField]
     private float forceFactor = 200f;
 
+    private float upForceFactor = 2000f;
+    private float leftForceFactor = 200f;
+    private float rightForceFactor = 200f;
+    private float downForceFactor = 200f;
+
     private Rigidbody2D rb;   // посилання на компонент 
     private GameObject display;   // посилання на інший ГО
     private DisplayScript displayScript;   // посилання на об'єкт скрипту в іншому ГО
@@ -24,9 +29,26 @@ public class CircleScript : MonoBehaviour
 
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(forceFactor * Time.timeScale * Vector3.up);
+        }
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            rb.AddForce(upForceFactor * Time.deltaTime * Vector3.up);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            rb.AddForce(downForceFactor * Time.deltaTime * Vector3.down);
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            rb.AddForce(leftForceFactor * Time.deltaTime * Vector3.left);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            rb.AddForce(rightForceFactor * Time.deltaTime * Vector3.right);
         }
         this.transform.eulerAngles = new Vector3(0, 0, 2f * rb.velocity.y);
     }

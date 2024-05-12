@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ public class DisplayScript : MonoBehaviour
     [SerializeField]
     private GameObject pauseMenu;
 
-    // public - àâòîìàòè÷íî ñåð³àë³çîâàí³ (äîñòóïí³ ó ðåäàêòîð³)
+    // public - Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡Ð½Ð¾ ÑÐµÑ€â‰¥Ð°Ð»â‰¥Ð·Ð¾Ð²Ð°Ð½â‰¥ (Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð½â‰¥ Ñƒ Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¾Ñ€â‰¥)
     public TMPro.TextMeshProUGUI messageText;
 
     float time;
@@ -25,18 +25,18 @@ public class DisplayScript : MonoBehaviour
         time += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            messageText.text = "Ãðà íà ïàóç³";
-            SetPause( ! pauseMenu.activeInHierarchy);
+            messageText.text = "âˆšÑ€Ð° Ð½Ð° Ð¿Ð°ÑƒÐ·â‰¥";
+            SetPause(!pauseMenu.activeInHierarchy);
         }
     }
 
     void LateUpdate()
     {
-        int t = (int) time;                   // 3800.123
+        int t = (int)time;                   // 3800.123
         int hour = t / 3600;                  // 1
         int minute = (t % 3600) / 60;         // (200) / 60 -> 3
         int second = t % 60;                  // 20
-        int ds = (int) ( (time - t) * 10 );   // (0.123)*10 -> 1.23 -> 1
+        int ds = (int)((time - t) * 10);   // (0.123)*10 -> 1.23 -> 1
         clock.text = $"{hour:D2}:{minute:D2}:{second:D2}.{ds}"; // 01:03:20.1
     }
 
