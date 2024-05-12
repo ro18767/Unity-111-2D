@@ -95,6 +95,12 @@ public class CircleScript : MonoBehaviour
             {
                 GameObject.Destroy(tube);
             }
+
+            // повторна спроба - прибираємо всі труби з поля
+            foreach (var food in GameObject.FindGameObjectsWithTag("Food"))
+            {
+                GameObject.Destroy(food);
+            }
         }
     }
 }
